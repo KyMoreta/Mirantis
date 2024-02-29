@@ -25,11 +25,13 @@ resource azurerm_network_security_group "cluster_nsg" {
 
   tags = merge(
     tomap({
-      "Name" = format("%s-cluster-nsg", var.cluster_name),
+      "Name"        = format("%s-cluster-nsg", var.cluster_name),
       "Environment" = format("%s", var.rg)
     }),
     var.tags
-  )
+    , {
+      yor_trace = "b43e8fcc-d08c-4b62-b68e-54611e9056b3"
+  })
 }
 
 # associate network security group for the cluster to the subnet
@@ -68,9 +70,11 @@ resource "azurerm_storage_account" "kubernetes_storage" {
 
   tags = merge(
     tomap({
-      "Name" = format("%s-kube-storage", var.cluster_name),
+      "Name"        = format("%s-kube-storage", var.cluster_name),
       "Environment" = format("%s", var.rg)
     }),
     var.tags
-  )
+    , {
+      yor_trace = "5f199fcf-6ac8-41ef-af75-61c72126264b"
+  })
 }

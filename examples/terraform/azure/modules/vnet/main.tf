@@ -10,7 +10,9 @@ resource "azurerm_resource_group" "rg" {
       "Name" = format("%s-rg", var.cluster_name)
     }),
     var.tags
-  )
+    , {
+      yor_trace = "43527374-c16e-4d57-8266-219c4d617191"
+  })
 
   lifecycle {
     ignore_changes = [tags]
@@ -28,11 +30,13 @@ resource "azurerm_virtual_network" "vnet" {
 
   tags = merge(
     tomap({
-      "Name" = format("%s-vnet", var.cluster_name),
+      "Name"        = format("%s-vnet", var.cluster_name),
       "Environment" = format("%s", azurerm_resource_group.rg.name)
     }),
     var.tags
-  )
+    , {
+      yor_trace = "61cb1973-fb02-4761-bbf8-2ea3f2aa9d37"
+  })
 }
 
 resource "azurerm_subnet" "subnet" {

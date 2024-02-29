@@ -2,13 +2,13 @@
 data "aws_availability_zones" "available" {}
 
 resource "tls_private_key" "ssh_key" {
-  algorithm   = "RSA"
-  rsa_bits = "4096"
+  algorithm = "RSA"
+  rsa_bits  = "4096"
 }
 
 resource "local_file" "ssh_public_key" {
-  content     = tls_private_key.ssh_key.private_key_pem
-  filename    = "ssh_keys/${var.cluster_name}.pem"
+  content  = tls_private_key.ssh_key.private_key_pem
+  filename = "ssh_keys/${var.cluster_name}.pem"
   provisioner "local-exec" {
     command = "chmod 0600 ${local_file.ssh_public_key.filename}"
   }
@@ -17,6 +17,9 @@ resource "local_file" "ssh_public_key" {
 resource "aws_key_pair" "key" {
   key_name   = var.cluster_name
   public_key = tls_private_key.ssh_key.public_key_openssh
+  tags = {
+    yor_trace = "4475fb1f-40ae-471a-bf43-381f841c6a57"
+  }
 }
 
 data "aws_ami" "ubuntu" {
@@ -76,6 +79,9 @@ resource "aws_security_group" "common" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
+  tags = {
+    yor_trace = "10f6b941-b043-4d08-bd4e-26e4b6efc87b"
+  }
 }
 
 resource "aws_iam_role" "role" {
@@ -96,11 +102,17 @@ resource "aws_iam_role" "role" {
   ]
 }
 EOF
+  tags = {
+    yor_trace = "def12840-aa1f-4821-9a50-dc0313e8db07"
+  }
 }
 
 resource "aws_iam_instance_profile" "profile" {
   name = "${var.cluster_name}_host"
   role = aws_iam_role.role.name
+  tags = {
+    yor_trace = "0fdc1ec0-1816-45d7-a7d4-6e1cc2023092"
+  }
 }
 
 resource "aws_iam_role_policy" "policy" {

@@ -67,6 +67,9 @@ resource "google_compute_instance" "mke_manager" {
       "https://www.googleapis.com/auth/cloud-platform"
     ]
   }
+  labels = {
+    yor_trace = "a7ddb3d3-a3f9-4b72-a2f7-b476ad6c0ac8"
+  }
 }
 
 resource "google_compute_instance_group" "default" {

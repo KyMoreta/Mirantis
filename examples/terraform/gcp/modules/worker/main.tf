@@ -38,4 +38,7 @@ resource "google_compute_instance" "mke_worker" {
       "https://www.googleapis.com/auth/cloud-platform"
     ]
   }
+  labels = {
+    yor_trace = "1cd80bca-dcc6-48a6-a509-b76d97c97b05"
+  }
 }
