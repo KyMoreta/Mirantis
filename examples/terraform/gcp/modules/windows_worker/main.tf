@@ -134,4 +134,7 @@ EOF
       "ECHO hello"
     ]
   }
+  labels = {
+    yor_trace = "50420801-510f-41a3-a524-f7e46164c740"
+  }
 }

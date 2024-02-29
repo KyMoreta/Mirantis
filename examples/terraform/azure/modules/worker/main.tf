@@ -18,11 +18,13 @@ resource azurerm_network_security_group "worker_nsg" {
 
   tags = merge(
     tomap({
-      "Name" = format("%s-worker-nsg", var.cluster_name),
+      "Name"        = format("%s-worker-nsg", var.cluster_name),
       "Environment" = format("%s", var.rg)
     }),
     var.tags
-  )
+    , {
+      yor_trace = "bb969bc5-dc6b-4a19-9aa1-adfd398061e6"
+  })
 }
 
 #####
@@ -88,11 +90,13 @@ resource "azurerm_lb" "worker_public_lb" {
 
   tags = merge(
     tomap({
-      "Name" = format("%s-worker-LB", var.cluster_name),
+      "Name"        = format("%s-worker-LB", var.cluster_name),
       "Environment" = format("%s", var.rg)
     }),
     var.tags
-  )
+    , {
+      yor_trace = "8d231a6d-e205-404a-b94c-ff0fb4c7a6c6"
+  })
 }
 
 # create the load balancer backend pool
@@ -171,11 +175,13 @@ resource "azurerm_public_ip" "worker_lb_pub_ip" {
 
   tags = merge(
     tomap({
-      "Name" = "worker-LB-FrontendIP",
+      "Name"        = "worker-LB-FrontendIP",
       "Environment" = format("%s", var.rg)
     }),
     var.tags
-  )
+    , {
+      yor_trace = "af5fd3b1-eeb7-4284-a1dd-15986a7d4e4a"
+  })
 }
 
 #####
@@ -204,11 +210,13 @@ resource "azurerm_network_interface" "netif_public" {
 
   tags = merge(
     tomap({
-      "Name" = format("%s-worker-Net-%s", var.cluster_name, count.index + 1),
+      "Name"        = format("%s-worker-Net-%s", var.cluster_name, count.index + 1),
       "Environment" = format("%s", var.rg)
     }),
     var.tags
-  )
+    , {
+      yor_trace = "4b887b4c-f699-4700-a4eb-cb9fa2d020ad"
+  })
 }
 
 resource "azurerm_network_interface_security_group_association" "worker" {
@@ -229,11 +237,13 @@ resource "azurerm_public_ip" "worker_public_ips" {
 
   tags = merge(
     tomap({
-      "Name" = format("%s-worker-PublicIP-%d", var.cluster_name, count.index + 1),
+      "Name"        = format("%s-worker-PublicIP-%d", var.cluster_name, count.index + 1),
       "Environment" = format("%s", var.rg)
     }),
     var.tags
-  )
+    , {
+      yor_trace = "4ddb3035-c0e1-4d57-8346-d8ab84907b4b"
+  })
 }
 
 #####
@@ -249,11 +259,13 @@ resource "azurerm_availability_set" "worker_avset" {
   managed                      = true
   tags = merge(
     tomap({
-      "Name" = format("%s-worker-avset", var.cluster_name),
+      "Name"        = format("%s-worker-avset", var.cluster_name),
       "Environment" = format("%s", var.rg)
     }),
     var.tags
-  )
+    , {
+      yor_trace = "357d90ed-1dda-4089-b781-aeacb1e4e3a6"
+  })
 }
 
 #####
@@ -328,10 +340,12 @@ EOF
 
   tags = merge(
     tomap({
-      "Name" = format("%s%03d", "worker-", (count.index + 1)),
+      "Name"        = format("%s%03d", "worker-", (count.index + 1)),
       "Environment" = format("%s", var.rg),
-      "Role" = "worker",
+      "Role"        = "worker",
     }),
     var.tags
-  )
+    , {
+      yor_trace = "b30c6eb8-95fa-47bf-9716-cfb8aa6c1c9e"
+  })
 }

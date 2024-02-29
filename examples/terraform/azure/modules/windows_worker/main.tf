@@ -24,11 +24,13 @@ resource azurerm_network_security_group "win_worker_nsg" {
 
   tags = merge(
     tomap({
-      "Name" = format("%s-win-worker-nsg", var.cluster_name),
+      "Name"        = format("%s-win-worker-nsg", var.cluster_name),
       "Environment" = format("%s", var.rg)
     }),
     var.tags
-  )
+    , {
+      yor_trace = "dd8a721b-b353-46c7-8816-5c1f38069dab"
+  })
 }
 
 #####
@@ -90,11 +92,13 @@ resource "azurerm_network_interface" "netif_public" {
 
   tags = merge(
     tomap({
-      "Name" = format("%s-win-worker-Net-%s", var.cluster_name, count.index + 1),
+      "Name"        = format("%s-win-worker-Net-%s", var.cluster_name, count.index + 1),
       "Environment" = format("%s", var.rg)
     }),
     var.tags
-  )
+    , {
+      yor_trace = "e839060c-836b-4ede-9630-4e995ce64f59"
+  })
 }
 
 resource "azurerm_network_interface_security_group_association" "win-worker" {
@@ -115,11 +119,13 @@ resource "azurerm_public_ip" "win_worker_public_ips" {
 
   tags = merge(
     tomap({
-      "Name" = format("%s-win-worker-PublicIP-%d", var.cluster_name, count.index + 1),
+      "Name"        = format("%s-win-worker-PublicIP-%d", var.cluster_name, count.index + 1),
       "Environment" = format("%s", var.rg)
     }),
     var.tags
-  )
+    , {
+      yor_trace = "584e1d82-7477-4e64-b604-91a61788725b"
+  })
 }
 
 #####
@@ -135,11 +141,13 @@ resource "azurerm_availability_set" "win_worker_avset" {
   managed                      = true
   tags = merge(
     tomap({
-      "Name" = format("%s-win-worker-avset", var.cluster_name),
+      "Name"        = format("%s-win-worker-avset", var.cluster_name),
       "Environment" = format("%s", var.rg)
     }),
     var.tags
-  )
+    , {
+      yor_trace = "b5151f5b-beb0-4d8e-8b16-70601ed69236"
+  })
 }
 
 #####
@@ -248,12 +256,14 @@ EOF
 
   tags = merge(
     tomap({
-      "Name" = format("%s%03d", "win-worker-", (count.index + 1)),
+      "Name"        = format("%s%03d", "win-worker-", (count.index + 1)),
       "Environment" = format("%s", var.rg),
-      "Role" = "worker",
+      "Role"        = "worker",
     }),
     var.tags
-  )
+    , {
+      yor_trace = "7a17b081-9233-489c-833b-3ab8ab95d34b"
+  })
 }
 
 resource "azurerm_virtual_machine_extension" "startup" {
@@ -269,4 +279,7 @@ resource "azurerm_virtual_machine_extension" "startup" {
     "commandToExecute": "powershell -ExecutionPolicy unrestricted -NoProfile -NonInteractive -command \"cp c:/azuredata/customdata.bin c:/azuredata/install.ps1; c:/azuredata/install.ps1\""
   }
 SETTINGS
+  tags = {
+    yor_trace = "6bc47ec8-e719-4062-ab35-dec980513165"
+  }
 }

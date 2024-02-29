@@ -42,6 +42,9 @@ resource "google_compute_instance" "mke_msr" {
     "allow-msr",
     "allow-internal"
   ]
+  labels = {
+    yor_trace = "33f1b423-19ae-408b-a350-d2bc215aaf7b"
+  }
 }
 
 resource "google_compute_instance_group" "default" {
